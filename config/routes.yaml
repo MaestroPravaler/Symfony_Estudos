@@ -1,3 +1,0 @@
-hello_world:
-    path: /hello-world
-    controller: App\Controller\HelloController::world
