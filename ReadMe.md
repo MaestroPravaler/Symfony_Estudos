@@ -90,3 +90,11 @@ Criar a tabela no banco de dados
 ```
 php bin/console doctrine:migrations:migrate
 ```
+
+## Intalação / Utilização do Form | Validator |
+
+Classe form é responsavel por criar formulários no symfony e a validator valida os campos.
+
+```
+composer req form validator
+```

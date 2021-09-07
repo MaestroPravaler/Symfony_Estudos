@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Produto;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Flex\Unpack\Result;
 
 class HelloController extends AbstractController
 {
@@ -45,5 +48,30 @@ class HelloController extends AbstractController
         $em->flush();
 
         return new Response(content:"O Produto". $produto->getId() ."foi criado!");
+    }
+
+    /**
+     * @Route("formulario")
+     */
+    public function formulario(Request $request)
+    {
+        $produto = new Produto();
+
+        $form = $this->createFormBuilder($produto)
+            ->add('nome', TextType::class)
+            ->add('preco', MoneyType::class)
+            ->add('enviar', SubmitType::class, ['label' => "Salvar"])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            return new Response(content:"Formulário Completo");
+        }
+
+        return $this->render("hello/formulario.html.twig", [
+            'form' => $form->createView()
+        ]);
+
     }
 }
